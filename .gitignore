@@ -11,7 +11,7 @@
 *__pycache__
 .history
 docs/
-*log*
+log*
 *output*
 Relatedworks
 f.py
