@@ -218,14 +218,14 @@ class MainLoss(nn.Module):
 
         self.charbonnier_loss = CharbonnierLoss() if self.weights["rec"] > 0 else None
 
-        self.perceptual_loss: Optional[PerceptualLoss]
-        if self.weights["prec"] > 0:
-            try:
-                self.perceptual_loss = PerceptualLoss()
-            except Exception:
-                self.perceptual_loss = None
-        else:
-            self.perceptual_loss = None
+        # self.perceptual_loss: Optional[PerceptualLoss]
+        # if self.weights["prec"] > 0:
+        #     try:
+        #         self.perceptual_loss = PerceptualLoss()
+        #     except Exception:
+        #         self.perceptual_loss = None
+        # else:
+        #     self.perceptual_loss = None
 
         self.grad_loss = GradientLoss() if self.weights["grad"] > 0 else None
         self.freq_loss = FrequencyLoss() if self.weights["freq"] > 0 else None
@@ -267,12 +267,12 @@ class MainLoss(nn.Module):
             losses["rec"] = self.charbonnier_loss(image_pred, target)
             total_loss = total_loss + self.weights["rec"] * losses["rec"]
 
-        if self.weights["prec"] > 0:
-            if self.perceptual_loss is None:
-                losses["prec"] = image_pred.new_tensor(0.0)
-            else:
-                losses["prec"] = self.perceptual_loss(image_pred, target)
-            total_loss = total_loss + self.weights["prec"] * losses["prec"]
+        # if self.weights["prec"] > 0:
+        #     if self.perceptual_loss is None:
+        #         losses["prec"] = image_pred.new_tensor(0.0)
+        #     else:
+        #         losses["prec"] = self.perceptual_loss(image_pred, target)
+        #     total_loss = total_loss + self.weights["prec"] * losses["prec"]
 
         if self.grad_loss is not None:
             losses["grad"] = self.grad_loss(image_pred, target)
